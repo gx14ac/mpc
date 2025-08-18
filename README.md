@@ -1,8 +1,9 @@
 ## MPC
 MidnightPizzaClub Code's.
 
-## mpc2.rb
-mpcの曲
+## souund track
+mpc.rb
+karma-sutora.rb
 
 ## background.js
-strudelに使えそうな背景
+for strudel

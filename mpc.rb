@@ -203,6 +203,21 @@ with_fx :level, amp:0 do |fx_b|
   end
 end
 
+# ===== Piano (gate in) =====
+piano_wait=100; piano_fade=10; piano_lvl=0.8
+with_fx :level, amp:0 do |fx_p|
+  in_thread do
+    sleep sec(piano_wait); fade_to fx_p, piano_lvl, piano_fade, 12, :piano_amp
+  end
+  live_loop :piano do
+    use_synth :piano
+    play_chord [:a3,:c4,:e4,:g4], amp:0.35; sleep 2
+    play_chord [:d3,:f3,:a3,:c4], amp:0.35; sleep 2
+    play_chord [:g3,:b3,:d4,:f4], amp:0.35; sleep 2
+    play_chord [:c3,:e3,:g3,:b3], amp:0.35; sleep 2
+  end
+end
+
 # ===== Indian Temple Synth (幻想的な寺院の音) =====
 temple_wait=90; temple_fade=15; temple_lvl=0.6
 with_fx :level, amp:0 do |fx_temple|
@@ -230,7 +245,7 @@ with_fx :level, amp:0 do |fx_temple|
     
     with_fx :reverb, room: 0.8, mix: 0.6, damp: 0.4 do
       with_fx :echo, phase: 2.0, decay: 6, mix: 0.3 do
-        with_fx :chorus, phase: 0.8, depth: 0.4, mix: 0.3 do
+        with_fx :wobble, phase: 0.8, cutoff_min: 60, cutoff_max: 120, mix: 0.3 do
           with_fx :lpf, cutoff: rrand(80, 95), res: 0.4 do
             use_synth :prophet
             
