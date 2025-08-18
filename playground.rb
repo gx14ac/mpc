@@ -8,7 +8,7 @@ live_loop :piano do
   # 美しいメロディーベースのピアノ
   with_fx :reverb, room: 0.5, mix: 0.4 do
     with_fx :lpf, cutoff: 95 do
-      use_synth :pluck
+      use_synth :piano
       x = 72  # ベース音程
       z = 0.4  # 音量（少し控えめに）
       i = get(:piano_counter) || 0
