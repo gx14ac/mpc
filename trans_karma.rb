@@ -1,4 +1,5 @@
 #### KARMA SUTORA ####
+use_bpm 100
 
 # ===== Helpers =====
 define :sec do |s| s.to_f * (current_bpm/60.0) end
@@ -10,11 +11,11 @@ define :sec do |s| s.to_f * (current_bpm/60.0) end
         sleep sec(secs/steps.to_f)
       end
     end
-    
+
     # ===== Voice Samples (ランダム定期再生) =====
     live_loop :voice_samples do
-      # 5-10秒のランダム間隔で待機
-      sleep rrand(5, 10)
+      # 15-30秒のランダム間隔で待機（頻度を下げる）
+      sleep rrand(30, 45)
       
       # 3つのボイスからランダムに選択
       voice_choice = rrand_i(1, 3)
