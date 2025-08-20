@@ -50,7 +50,71 @@ live_loop :jungle_bass do; t = vt; if t > 90 && get(:break_active); jungle_level
 live_loop :karankoron do; t = vt; if t > 100; level = [(t - 100) / 60.0, 1.0].min; if one_in(18); with_fx :reverb, room: 0.9, mix: 0.8, damp: 0.6 do; with_fx :echo, phase: rrand(3.0, 6.0), decay: rrand(12, 20), mix: 0.4 do; with_fx :lpf, cutoff: rrand(60, 80) do; sample "/Users/shinta/git/github.com/gx14ac/mpc/assets/karankoron.mp3", amp: 0.15 + level * 0.20, rate: rrand(0.8, 1.1), attack: rrand(1.0, 2.5), release: rrand(3.0, 6.0), pan: rrand(-0.7, 0.7); end; end; end; sleep rrand(12, 25); else; sleep rrand(8, 15); end; else; sleep 12; end; end
 
 # ===== 深淵への誘い =====
-live_loop :deep_pull do; t = vt; if t > 40; pull_level = [(t - 40) / 120.0, 1.0].min; if one_in(15); with_fx :reverb, room: 0.95, mix: 0.9, damp: 0.9 do; with_fx :echo, phase: rrand(8.0, 16.0), decay: rrand(25, 40), mix: 0.7 do; with_fx :pitch_shift, pitch: rrand(-1.2, -0.3), mix: 0.8 do; with_fx :lpf, cutoff: rrand(30, 50) do; use_synth :hollow; play choose([20, 22, 24, 19]), amp: 0.04 + pull_level * 0.08, attack: rrand(15, 25), sustain: rrand(30, 50), release: rrand(20, 35), cutoff: rrand(25, 40), pan: rrand(-0.9, 0.9); end; end; end; end; sleep rrand(45, 80); else; sleep rrand(25, 50); end; else; sleep 30; end; end
+live_loop :deep_pull do; t = vt; if t > 20; pull_level = [(t - 20) / 60.0, 1.0].min; if one_in(6); with_fx :reverb, room: 0.9, mix: 0.8, damp: 0.7 do; with_fx :echo, phase: rrand(4.0, 8.0), decay: rrand(15, 25), mix: 0.6 do; with_fx :pitch_shift, pitch: rrand(-0.8, -0.2), mix: 0.7 do; with_fx :lpf, cutoff: rrand(40, 70) do; use_synth :hollow; play choose([28, 31, 33, 26]), amp: 0.15 + pull_level * 0.25, attack: rrand(8, 15), sustain: rrand(15, 25), release: rrand(10, 20), cutoff: rrand(35, 60), pan: rrand(-0.7, 0.7); end; end; end; end; sleep rrand(20, 35); else; sleep rrand(12, 20); end; else; sleep 15; end; end
 
 # ===== ランダム音声（エフェクト付き） =====
 live_loop :random_voice do; t = vt; if t > 100; voice_level = [(t - 100) / 60.0, 1.0].min; if one_in(15); with_fx :reverb, room: 0.8, mix: 0.7, damp: 0.3 do; with_fx :echo, phase: rrand(2.0, 4.0), decay: rrand(8, 15), mix: 0.5 do; with_fx :pitch_shift, pitch: rrand(-0.3, -0.1), mix: 0.6 do; with_fx :lpf, cutoff: rrand(70, 90) do; with_fx :hpf, cutoff: rrand(30, 50) do; sample "/Users/shinta/git/github.com/gx14ac/mpc/assets/roba-master-yeah-hosse.mp3", amp: 0.23 + voice_level * 0.30, rate: rrand(0.7, 0.9), attack: rrand(0.5, 1.5), release: rrand(2.0, 4.0), pan: rrand(-0.6, 0.6); end; end; end; end; end; sleep rrand(8, 20); else; sleep rrand(6, 12); end; else; sleep 10; end; end
+
+# ===== 宇宙との対話 =====
+live_loop :cosmic_whisper do
+  t = vt
+  if t > 15
+    cosmic_level = [t / 90.0, 1.0].min
+    if one_in(8)
+      # 宇宙的な音色を選択
+      cosmic_synth = choose([:hollow, :dark_ambience, :sine])
+      
+      with_fx :reverb, room: 0.95, mix: 0.9, damp: 0.8 do
+        with_fx :echo, phase: rrand(6.0, 12.0), decay: rrand(20, 35), mix: 0.7 do
+          with_fx :pitch_shift, pitch: rrand(-0.2, 0.2), mix: 0.3 do
+            with_fx :lpf, cutoff: rrand(50, 80) do
+              use_synth cosmic_synth
+              play choose([72, 76, 79, 84, 88]), 
+                   amp: 0.06 + cosmic_level * 0.10, 
+                   attack: rrand(8, 15), 
+                   sustain: rrand(20, 35), 
+                   release: rrand(15, 25), 
+                   cutoff: rrand(60, 85), 
+                   res: rrand(0.1, 0.4), 
+                   pan: rrand(-0.9, 0.9)
+            end
+          end
+        end
+      end
+      sleep rrand(30, 50)
+    else
+      sleep rrand(20, 35)
+    end
+  else
+    sleep 10
+  end
+end
+
+# ===== 音の輪郭（高音アクセント） =====
+live_loop :sonic_edge do
+  t = vt
+  if t > 25
+    edge_level = [t / 80.0, 1.0].min
+    if one_in(12)
+      # 鋭い高音で輪郭を描く
+      with_fx :reverb, room: 0.6, mix: 0.4 do
+        with_fx :hpf, cutoff: rrand(80, 120) do
+          with_fx :echo, phase: rrand(1.0, 2.5), decay: rrand(4, 8), mix: 0.3 do
+            use_synth :sine
+            play choose([96, 100, 103, 108, 112]), 
+                 amp: 0.08 + edge_level * 0.12, 
+                 attack: rrand(0.1, 0.5), 
+                 sustain: rrand(0.3, 1.2), 
+                 release: rrand(1.0, 3.0), 
+                 pan: rrand(-0.5, 0.5)
+          end
+        end
+      end
+      sleep rrand(20, 40)
+    else
+      sleep rrand(15, 25)
+    end
+  else
+    sleep 8
+  end
+end

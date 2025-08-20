@@ -1,9 +1,7 @@
 ## MPC
-MidnightPizzaClub Code's.
+Midnight Pizza Club Sound Code's.
 
-## souund track
-mpc.rb
-karma-sutora.rb
+## SouundTrack
+trans
 
-## background.js
-for strudel
+## Sound Architecture
