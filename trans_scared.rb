@@ -55,13 +55,12 @@ live_loop :deep_pull do; t = vt; if t > 20; pull_level = [(t - 20) / 60.0, 1.0].
 # ===== ランダム音声（エフェクト付き） =====
 live_loop :random_voice do; t = vt; if t > 100; voice_level = [(t - 100) / 60.0, 1.0].min; if one_in(15); with_fx :reverb, room: 0.8, mix: 0.7, damp: 0.3 do; with_fx :echo, phase: rrand(2.0, 4.0), decay: rrand(8, 15), mix: 0.5 do; with_fx :pitch_shift, pitch: rrand(-0.3, -0.1), mix: 0.6 do; with_fx :lpf, cutoff: rrand(70, 90) do; with_fx :hpf, cutoff: rrand(30, 50) do; sample "/Users/shinta/git/github.com/gx14ac/mpc/assets/roba-master-yeah-hosse.mp3", amp: 0.23 + voice_level * 0.30, rate: rrand(0.7, 0.9), attack: rrand(0.5, 1.5), release: rrand(2.0, 4.0), pan: rrand(-0.6, 0.6); end; end; end; end; end; sleep rrand(8, 20); else; sleep rrand(6, 12); end; else; sleep 10; end; end
 
-# ===== 宇宙との対話 =====
+# ===== 宇宙からの贈り物 =====
 live_loop :cosmic_whisper do
   t = vt
   if t > 15
     cosmic_level = [t / 90.0, 1.0].min
     if one_in(8)
-      # 宇宙的な音色を選択
       cosmic_synth = choose([:hollow, :dark_ambience, :sine])
       
       with_fx :reverb, room: 0.95, mix: 0.9, damp: 0.8 do
@@ -90,7 +89,6 @@ live_loop :cosmic_whisper do
   end
 end
 
-# ===== 音の輪郭（高音アクセント） =====
 live_loop :sonic_edge do
   t = vt
   if t > 25
