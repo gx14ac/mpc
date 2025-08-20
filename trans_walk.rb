@@ -83,22 +83,17 @@ live_loop :extra_sounds do; sleep intro_duration + 10; t = vt - intro_duration
   if t >= sec(200) && t < sec(210); with_fx :reverb, room: 0.5, mix: 0.4 do; sample "/Users/shinta/git/github.com/gx14ac/mpc/assets/maybe-back.mp3", amp: rrand(0.25, 0.38); end; end
 end
 
-## trans_walkで後から入れる。
-# ===== Piano V3 (フェードインで開始) =====
-piano_wait=120; piano_fade=30; piano_lvl=0.15
-with_fx :level, amp:0 do |fx_piano|
-  in_thread do
-    sleep piano_wait; fade_to fx_piano, piano_lvl, piano_fade
-  end
+# ===== Piano V3 (たまに鳴る) =====
+live_loop :piano_v3 do
+  sleep 120  # 2分待機
   
-  live_loop :piano_v3 do
+  if one_in(4)  # 25%の確率で発動
     with_fx :reverb, room: 0.8, mix: 0.6 do
       with_fx :lpf, cutoff: 85 do
         with_fx :echo, phase: 1.5, decay: 4, mix: 0.3 do
           use_synth :piano
           x = 72
-          z = 0.3
-          i = get(:piano_counter) || 0
+          z = 0.15
           
           # ミニマルな反復パターン
           pattern = [0, 4, 7, 4, 0, -3, 0, 2]
@@ -123,42 +118,36 @@ with_fx :level, amp:0 do |fx_piano|
             sleep 2
           end
           
-          if i == 3
-            # アンビエント風エンディング
-            play x + 12, pan: 0.8, amp: z + 0.2, attack: 2, release: 12
-            sleep 4
-            play x + 7, pan: 0.9, amp: z + 0.15, attack: 3, release: 10
-            sleep 10
-            set :piano_counter, 0
-          else
-            sleep 1
-            set :piano_counter, i + 1
-          end
+          # アンビエント風エンディング
+          play x + 12, pan: 0.8, amp: z + 0.1, attack: 2, release: 12
+          sleep 4
+          play x + 7, pan: 0.9, amp: z + 0.08, attack: 3, release: 10
+          sleep 10
         end
       end
     end
+    
+    sleep rrand(30, 60)  # 発動後は30-60秒待機
+  else
+    sleep rrand(15, 30)  # 非発動時は15-30秒待機
   end
 end
 
-# ===== Ambient Bass Hybrid (段階的フェードイン) =====
-bass_wait=120; bass_fade=45; bass_lvl=0.2
-with_fx :level, amp:0 do |fx_bass|
-  in_thread do
-    sleep bass_wait; fade_to fx_bass, bass_lvl, bass_fade
-  end
+# ===== Ambient Bass (たまに鳴る) =====
+live_loop :ambient_bass do
+  sleep 120  # 2分待機
   
-  # メインベース
-  live_loop :ambient_bass do
+  if one_in(5)  # 20%の確率で発動
     with_fx :reverb, room: 0.6, mix: 0.3 do
       with_fx :lpf, cutoff: 45, res: 0.2 do
         with_fx :echo, phase: 3.0, decay: 5, mix: 0.15 do
           use_synth :hollow
           x = 48
-          z = 0.35
+          z = 0.2
           
           # ピアノパターンに呼応するベース
           bass_pattern = [0, 4, 7, 4, 0, -3, 0, 2]
-          bass_delays = [6, 2, 4, 2, 4, 3, 2, 5]  # ピアノより長い音価
+          bass_delays = [6, 2, 4, 2, 4, 3, 2, 5]
           
           bass_pattern.zip(bass_delays).each do |note, delay|
             play x + note,
@@ -174,24 +163,28 @@ with_fx :level, amp:0 do |fx_bass|
         end
       end
     end
-  end
-  
-  # サブベース（時々）
-  live_loop :sub_accent do
-    sleep rrand(32, 48)  # 不規則な間隔
     
-    if one_in(2)  # 50%の確率
-      with_fx :reverb, room: 0.8, mix: 0.2 do
-        with_fx :lpf, cutoff: 45 do
-          use_synth :subpulse
-          play 36,
-            amp: 0.4,
-            attack: 3,
-            sustain: 8,
-            release: 12,
-            cutoff: 40,
-            pulse_width: 0.5
-        end
+    sleep rrand(40, 80)  # 発動後は40-80秒待機
+  else
+    sleep rrand(20, 40)  # 非発動時は20-40秒待機
+  end
+end
+
+# ===== サブベース（時々） =====
+live_loop :sub_accent do
+  sleep rrand(60, 120)  # より長い間隔
+  
+  if one_in(3)  # 33%の確率
+    with_fx :reverb, room: 0.8, mix: 0.2 do
+      with_fx :lpf, cutoff: 45 do
+        use_synth :subpulse
+        play 36,
+          amp: 0.3,
+          attack: 3,
+          sustain: 8,
+          release: 12,
+          cutoff: 40,
+          pulse_width: 0.5
       end
     end
   end
