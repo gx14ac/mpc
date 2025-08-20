@@ -56,63 +56,6 @@ live_loop :deep_pull do; t = vt; if t > 20; pull_level = [(t - 20) / 60.0, 1.0].
 live_loop :random_voice do; t = vt; if t > 100; voice_level = [(t - 100) / 60.0, 1.0].min; if one_in(15); with_fx :reverb, room: 0.8, mix: 0.7, damp: 0.3 do; with_fx :echo, phase: rrand(2.0, 4.0), decay: rrand(8, 15), mix: 0.5 do; with_fx :pitch_shift, pitch: rrand(-0.3, -0.1), mix: 0.6 do; with_fx :lpf, cutoff: rrand(70, 90) do; with_fx :hpf, cutoff: rrand(30, 50) do; sample "/Users/shinta/git/github.com/gx14ac/mpc/assets/roba-master-yeah-hosse.mp3", amp: 0.23 + voice_level * 0.30, rate: rrand(0.7, 0.9), attack: rrand(0.5, 1.5), release: rrand(2.0, 4.0), pan: rrand(-0.6, 0.6); end; end; end; end; end; sleep rrand(8, 20); else; sleep rrand(6, 12); end; else; sleep 10; end; end
 
 # ===== 宇宙からの贈り物 =====
-live_loop :cosmic_whisper do
-  t = vt
-  if t > 15
-    cosmic_level = [t / 90.0, 1.0].min
-    if one_in(8)
-      cosmic_synth = choose([:hollow, :dark_ambience, :sine])
-      
-      with_fx :reverb, room: 0.95, mix: 0.9, damp: 0.8 do
-        with_fx :echo, phase: rrand(6.0, 12.0), decay: rrand(20, 35), mix: 0.7 do
-          with_fx :pitch_shift, pitch: rrand(-0.2, 0.2), mix: 0.3 do
-            with_fx :lpf, cutoff: rrand(50, 80) do
-              use_synth cosmic_synth
-              play choose([72, 76, 79, 84, 88]), 
-                   amp: 0.06 + cosmic_level * 0.10, 
-                   attack: rrand(8, 15), 
-                   sustain: rrand(20, 35), 
-                   release: rrand(15, 25), 
-                   cutoff: rrand(60, 85), 
-                   res: rrand(0.1, 0.4), 
-                   pan: rrand(-0.9, 0.9)
-            end
-          end
-        end
-      end
-      sleep rrand(30, 50)
-    else
-      sleep rrand(20, 35)
-    end
-  else
-    sleep 10
-  end
-end
+live_loop :cosmic_whisper do; t = vt; if t > 150; cosmic_level = [t / 90.0, 1.0].min; if one_in(8); cosmic_synth = choose([:hollow, :dark_ambience, :sine]); with_fx :reverb, room: 0.95, mix: 0.9, damp: 0.8 do; with_fx :echo, phase: rrand(6.0, 12.0), decay: rrand(20, 35), mix: 0.7 do; with_fx :pitch_shift, pitch: rrand(-0.2, 0.2), mix: 0.3 do; with_fx :lpf, cutoff: rrand(50, 80) do; use_synth cosmic_synth; play choose([72, 76, 79, 84, 88]), amp: 0.03 + cosmic_level * 0.10, attack: rrand(8, 15), sustain: rrand(20, 35), release: rrand(15, 25), cutoff: rrand(60, 85), res: rrand(0.1, 0.4), pan: rrand(-0.9, 0.9); end; end; end; end; sleep rrand(30, 50); else; sleep rrand(20, 35); end; else; sleep 10; end; end
 
-live_loop :sonic_edge do
-  t = vt
-  if t > 25
-    edge_level = [t / 80.0, 1.0].min
-    if one_in(12)
-      # 鋭い高音で輪郭を描く
-      with_fx :reverb, room: 0.6, mix: 0.4 do
-        with_fx :hpf, cutoff: rrand(80, 120) do
-          with_fx :echo, phase: rrand(1.0, 2.5), decay: rrand(4, 8), mix: 0.3 do
-            use_synth :sine
-            play choose([96, 100, 103, 108, 112]), 
-                 amp: 0.08 + edge_level * 0.12, 
-                 attack: rrand(0.1, 0.5), 
-                 sustain: rrand(0.3, 1.2), 
-                 release: rrand(1.0, 3.0), 
-                 pan: rrand(-0.5, 0.5)
-          end
-        end
-      end
-      sleep rrand(20, 40)
-    else
-      sleep rrand(15, 25)
-    end
-  else
-    sleep 8
-  end
-end
+live_loop :sonic_edge do; t = vt; if t > 170; edge_level = [t / 80.0, 1.0].min; if one_in(12); with_fx :reverb, room: 0.6, mix: 0.4 do; with_fx :hpf, cutoff: rrand(80, 120) do; with_fx :echo, phase: rrand(1.0, 2.5), decay: rrand(4, 8), mix: 0.3 do; use_synth :sine; play choose([96, 100, 103, 108, 112]), amp: 0.03 + edge_level * 0.12, attack: rrand(0.1, 0.5), sustain: rrand(0.3, 1.2), release: rrand(1.0, 3.0), pan: rrand(-0.5, 0.5); end; end; end; sleep rrand(20, 40); else; sleep rrand(15, 25); end; else; sleep 8; end; end
